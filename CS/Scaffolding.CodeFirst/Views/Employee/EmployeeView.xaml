@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="Scaffolding.CodeFirst.Views.EmployeeView"
+        xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+        xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:viewmodel="clr-namespace:Scaffolding.CodeFirst.ViewModels"
+        xmlns:view="clr-namespace:Scaffolding.CodeFirst.Views"
+        mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="600" DataContext="{dxmvvm:ViewModelSource viewmodel:EmployeeViewModel}">
+    <dxmvvm:Interaction.Behaviors>
+        <dx:DXMessageBoxService />
+        <dxmvvm:EventToCommand Event="Loaded" Command="{Binding OnLoadedCommand}" />
+    </dxmvvm:Interaction.Behaviors>
+    <Grid>
+        <DockPanel>
+            <dxr:RibbonControl RibbonStyle="Office2010" DockPanel.Dock="Top" AllowCustomization="False">
+                <dxr:RibbonDefaultPageCategory Caption="defaultCategory">
+                    <dxr:RibbonPage Caption="Home">
+                        <dxr:RibbonPageGroup Caption="Employee Tasks">
+                            <dxb:BarButtonItem Content="Save" Command="{Binding SaveCommand}" LargeGlyph="{dx:DXImage Image=Save_32x32.png}" Glyph="{dx:DXImage Image=Save_16x16.png}" />
+                            <dxb:BarButtonItem Content="Save And Close" Command="{Binding SaveAndCloseCommand}" LargeGlyph="{dx:DXImage Image=SaveAndClose_32x32.png}" Glyph="{dx:DXImage Image=SaveAndClose_16x16.png}" />
+                            <dxb:BarButtonItem Content="Save And New" Command="{Binding SaveAndNewCommand}" LargeGlyph="{dx:DXImage Image=SaveAndNew_32x32.png}" Glyph="{dx:DXImage Image=SaveAndNew_16x16.png}" />
+                            <dxb:BarButtonItem Content="Reset Changes" Command="{Binding ResetCommand}" LargeGlyph="{dx:DXImage Image=Reset_32x32.png}" Glyph="{dx:DXImage Image=Reset_16x16.png}" />
+                            <dxb:BarButtonItem Content="Delete" Command="{Binding DeleteCommand}" LargeGlyph="{dx:DXImage Image=Delete_32x32.png}" Glyph="{dx:DXImage Image=Delete_16x16.png}" />
+                            <dxb:BarButtonItem Content="Close" Command="{Binding CloseCommand}" LargeGlyph="{dx:DXImage Image=Close_32x32.png}" Glyph="{dx:DXImage Image=Close_16x16.png}" />
+                        </dxr:RibbonPageGroup>
+                        <dxr:RibbonPageGroup Caption="Layout">
+                            <dxb:BarCheckItem Content="Customize" IsChecked="{Binding IsCustomization, ElementName=layoutControl}" LargeGlyph="{dx:DXImage Image=PageSetup_32x32.png}" Glyph="{dx:DXImage Image=PageSetup_16x16.png}" />
+                            <dxb:BarButtonItem Content="Save Layout" Command="{Binding SaveLayoutCommand}" LargeGlyph="{dx:DXImage Image=Save_32x32.png}" Glyph="{dx:DXImage Image=Save_16x16.png}" />
+                            <dxb:BarButtonItem Content="Reset Layout" Command="{Binding ResetLayoutCommand}" LargeGlyph="{dx:DXImage Image=Reset_32x32.png}" Glyph="{dx:DXImage Image=Reset_16x16.png}" />
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                </dxr:RibbonDefaultPageCategory>
+            </dxr:RibbonControl>
+            <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom" />
+            <Grid>
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:LayoutSerializationService />
+                </dxmvvm:Interaction.Behaviors>
+                <dxlc:DataLayoutControl AutoGenerateItems="False" CurrentItem="{Binding Entity}" x:Name="layoutControl" Orientation="Vertical" IsEnabled="{Binding Entity, Converter={dxmvvm:ObjectToBooleanConverter}}">
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:EventToCommand Event="{x:Static Binding.SourceUpdatedEvent}" Command="{Binding UpdateCommand}" />
+                    </dxmvvm:Interaction.Behaviors>
+                    <dxlc:DataLayoutItem Label="Employee ID" Name="layoutItemEmployeeID" Binding="{Binding EmployeeID, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding DataContext.IsPrimaryKeyReadOnly, RelativeSource={RelativeSource AncestorType={x:Type dxlc:DataLayoutControl}}}" />
+                    <dxlc:DataLayoutItem Label="Name" Name="layoutItemName" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                    <dxlc:LayoutItem Label="Department" Name="layoutItemDepartment">
+                        <dxg:LookUpEdit ItemsSource="{Binding LookUpDepartments.Entities}" EditValue="{Binding Entity.DepartmentID, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnSourceUpdated=True}" ValueMember="DepartmentID" DisplayMember="Name" IsTextEditable="False" AllowUpdateTwoWayBoundPropertiesOnSynchronization="False">
+                            <dxg:LookUpEdit.PopupContentTemplate>
+                                <ControlTemplate TargetType="ContentControl">
+                                    <dxg:GridControl x:Name="PART_GridControl" ShowBorder="False" ShowLoadingPanel="{Binding LookUpDepartments.IsLoading}" />
+                                </ControlTemplate>
+                            </dxg:LookUpEdit.PopupContentTemplate>
+                        </dxg:LookUpEdit>
+                    </dxlc:LayoutItem>
+                </dxlc:DataLayoutControl>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</UserControl>
