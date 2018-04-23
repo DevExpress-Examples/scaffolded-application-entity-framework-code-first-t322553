@@ -1,0 +1,266 @@
+﻿<ResourceDictionary
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+        xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+        xmlns:dxrudex="http://schemas.devexpress.com/winfx/2008/xaml/reports/userdesignerextensions"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:localization="clr-namespace:Scaffolding.CodeFirst.Localization">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="CollectionViewResources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <!--#region Commands-->
+    <Style x:Key="EntityView.Command.Save" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_Save}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=Save_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=Save_32x32.png}}" />
+        <Setter Property="Command" Value="{Binding SaveCommand}" />
+        <Setter Property="IsVisible" Value="{Binding AllowSaveReset}" />
+    </Style>
+    <Style x:Key="EntityView.Command.SaveAndClose" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_SaveAndClose}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=SaveAndClose_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=SaveAndClose_32x32.png}}" />
+        <Setter Property="Command" Value="{Binding SaveAndCloseCommand}" />
+        <Setter Property="IsVisible" Value="{Binding AllowSaveReset}" />
+    </Style>
+    <Style x:Key="EntityView.Command.SaveAndNew" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_SaveAndNew}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=SaveAndNew_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=SaveAndNew_32x32.png}}" />
+        <Setter Property="Command" Value="{Binding SaveAndNewCommand}" />
+        <Setter Property="IsVisible" Value="{Binding AllowSaveReset}" />
+    </Style>
+    <Style x:Key="EntityView.Command.Reset" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_Reset}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=Reset_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=Reset_32x32.png}}" />
+        <Setter Property="Command" Value="{Binding ResetCommand}" />
+    </Style>
+    <Style x:Key="EntityView.Command.Delete" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_Delete}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=Delete_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=Delete_32x32.png}}" />
+        <Setter Property="Command" Value="{Binding DeleteCommand}" />
+    </Style>
+    <Style x:Key="EntityView.Command.Close" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_Close}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=Close_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=Close_32x32.png}}" />
+        <Setter Property="Command" Value="{Binding CloseCommand}" />
+    </Style>
+    <Style x:Key="EntityView.Command.Customize" TargetType="dxb:BarCheckItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_CustomizeLayout}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=PageSetup_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=PageSetup_32x32.png}}" />
+    </Style>
+    <Style x:Key="EntityView.Command.SaveLayout" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_SaveLayout}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=Save_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=Save_32x32.png}}" />
+        <Setter Property="Command" Value="{Binding SaveLayoutCommand}" />
+    </Style>
+    <Style x:Key="EntityView.Command.ResetLayout" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_ResetLayout}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=Reset_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=Reset_32x32.png}}" />
+        <Setter Property="Command" Value="{Binding ResetLayoutCommand}" />
+    </Style>
+    <Style x:Key="EntityView.Detail.Command.New" BasedOn="{StaticResource CollectionView.Command.New}" TargetType="dxb:BarButtonItem">
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+    </Style>
+    <Style x:Key="EntityView.Detail.Command.Edit" BasedOn="{StaticResource CollectionView.Command.Edit}" TargetType="dxb:BarButtonItem">
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+    </Style>
+    <Style x:Key="EntityView.Detail.Command.Delete" BasedOn="{StaticResource CollectionView.Command.Delete}" TargetType="dxb:BarButtonItem">
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+    </Style>
+    <Style x:Key="EntityView.Detail.Command.Refresh" BasedOn="{StaticResource CollectionView.Command.Refresh}" TargetType="dxb:BarButtonItem">
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+    </Style>
+    <Style x:Key="EntityView.Detail.Command.Save" BasedOn="{StaticResource CollectionView.Command.Save}" TargetType="dxb:BarButtonItem">
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+    </Style>
+    <Style x:Key="EntityView.Detail.Command.Reset" BasedOn="{StaticResource CollectionView.Command.Reset}" TargetType="dxb:BarButtonItem">
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+    </Style>
+    <Style x:Key="EntityView.Detail.GridCommand.New" BasedOn="{StaticResource CollectionView.GridCommand.New}" TargetType="dxb:BarButtonItem" />
+    <Style x:Key="EntityView.Detail.GridCommand.Edit" BasedOn="{StaticResource CollectionView.GridCommand.Edit}" TargetType="dxb:BarButtonItem" />
+    <Style x:Key="EntityView.Detail.GridCommand.Delete" BasedOn="{StaticResource CollectionView.GridCommand.Delete}" TargetType="dxb:BarButtonItem" />
+    <Style x:Key="EntityView.Detail.GridCommand.Refresh" BasedOn="{StaticResource CollectionView.GridCommand.Refresh}" TargetType="dxb:BarButtonItem" />
+    <Style x:Key="EntityView.DetailManyToMany.Command.New" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_New}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=New_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=New_32x32.png}}" />
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+        <Setter Property="Command" Value="{Binding CreateDetailEntityCommand}" />
+        <Setter Property="IsVisible" Value="{Binding IsCreateDetailButtonVisible}" />
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.Command.Edit" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_Edit}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=Edit_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=Edit_32x32.png}}" />
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+        <Setter Property="Command" Value="{Binding EditDetailEntityCommand}" />
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.Command.Add" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_Add}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=Add_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=Add_32x32.png}}" />
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+        <Setter Property="Command" Value="{Binding AddDetailEntitiesCommand}" />
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.Command.Delete" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:ViewResources.Command_Delete}" />
+        <Setter Property="Glyph" Value="{Binding Source={dx:DXImage Image=Delete_16x16.png}}" />
+        <Setter Property="LargeGlyph" Value="{Binding Source={dx:DXImage Image=Delete_32x32.png}}" />
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph" />
+        <Setter Property="GlyphSize" Value="Small" />
+        <Setter Property="Command" Value="{Binding RemoveDetailEntitiesCommand}" />
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.GridCommand.New" BasedOn="{StaticResource EntityView.DetailManyToMany.Command.New}" TargetType="dxb:BarButtonItem">
+        <Setter Property="Command" Value="{Binding View.DataContext.CreateDetailEntityCommand}" />
+        <Setter Property="IsVisible" Value="{Binding View.DataContext.IsCreateDetailButtonVisible}" />
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.GridCommand.Edit" BasedOn="{StaticResource EntityView.DetailManyToMany.Command.Edit}" TargetType="dxb:BarButtonItem">
+        <Setter Property="Command" Value="{Binding View.DataContext.EditDetailEntityCommand}" />
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.GridCommand.Add" BasedOn="{StaticResource EntityView.DetailManyToMany.Command.Add}" TargetType="dxb:BarButtonItem">
+        <Setter Property="Command" Value="{Binding View.DataContext.AddDetailEntitiesCommand}" />
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.GridCommand.Delete" BasedOn="{StaticResource EntityView.DetailManyToMany.Command.Delete}" TargetType="dxb:BarButtonItem">
+        <Setter Property="Command" Value="{Binding View.DataContext.RemoveDetailEntitiesCommand}" />
+    </Style>
+    <!--#endregion Commands-->
+    <!--#region Ribbon-->
+    <Style x:Key="EntityView.RibbonControl" BasedOn="{StaticResource CollectionView.RibbonControl}" TargetType="dxr:RibbonControl" />
+    <Style x:Key="EntityView.RibbonPage" BasedOn="{StaticResource CollectionView.RibbonPage}" TargetType="dxr:RibbonPage" />
+    <Style x:Key="EntityView.RibbonPageGroup.Main" BasedOn="{StaticResource CollectionView.RibbonPageGroup.Main}" TargetType="dxr:RibbonPageGroup" />
+    <Style x:Key="EntityView.RibbonPageGroup.Layout" TargetType="dxr:RibbonPageGroup">
+        <Setter Property="Caption" Value="{x:Static localization:ViewResources.RibbonPageGroup_Layout}" />
+    </Style>
+    <Style x:Key="EntityView.RibbonStatusBar" BasedOn="{StaticResource CollectionView.RibbonStatusBar}" TargetType="dxr:RibbonStatusBarControl" />
+    <!--#endregion Ribbon-->
+    <!--#region Containers-->
+    <Style x:Key="EntityView.RootContainer" TargetType="FrameworkElement">
+        <Setter Property="dxmvvm:Interaction.BehaviorsTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ItemsControl>
+                        <dxmvvm:EventToCommand Event="Loaded" Command="{Binding OnLoadedCommand}" />
+                        <dx:DXMessageBoxService />
+                        <dxmvvm:LayoutSerializationService />
+                    </ItemsControl>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="EntityView.DataLayoutControl" TargetType="dxlc:DataLayoutControl">
+        <Setter Property="CurrentItem" Value="{Binding Entity}" />
+        <Setter Property="AutoGenerateItems" Value="False" />
+        <Setter Property="Orientation" Value="Vertical" />
+        <Setter Property="IsEnabled" Value="{Binding Entity, Converter={dxmvvm:ObjectToBooleanConverter}}" />
+        <Setter Property="dxmvvm:Interaction.BehaviorsTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ItemsControl>
+                        <dxmvvm:EventToCommand Event="{x:Static Binding.SourceUpdatedEvent}" Command="{Binding UpdateCommand}" />
+                    </ItemsControl>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="EntityView.LookUpEdit" TargetType="dxg:LookUpEdit">
+        <Setter Property="AllowUpdateTwoWayBoundPropertiesOnSynchronization" Value="False" />
+        <Setter Property="IsTextEditable" Value="False" />
+    </Style>
+    <Style x:Key="EntityView.Detail.Container" TargetType="FrameworkElement">
+        <Setter Property="dxb:MergingProperties.AllowMerging" Value="False" />
+        <Setter Property="dxb:BarNameScope.IsScopeOwner" Value="True" />
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.Container" BasedOn="{StaticResource EntityView.Detail.Container}" TargetType="FrameworkElement">
+        <Setter Property="dxmvvm:Interaction.BehaviorsTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ItemsControl>
+                        <dx:DialogService DialogWindowStartupLocation="CenterOwner">
+                            <dx:DialogService.DialogStyle>
+                                <Style TargetType="Window">
+                                    <Setter Property="Width" Value="600" />
+                                    <Setter Property="Height" Value="400" />
+                                    <Setter Property="ResizeMode" Value="NoResize" />
+                                    <Setter Property="ShowInTaskbar" Value="False" />
+                                    <Setter Property="WindowStyle" Value="ToolWindow" />
+                                </Style>
+                            </dx:DialogService.DialogStyle>
+                            <dx:DialogService.ViewTemplate>
+                                <DataTemplate>
+                                    <dxg:GridControl ItemsSource="{Binding AvailableEntities}" SelectedItems="{Binding SelectedEntities}" SelectionMode="Row" ShowBorder="False" AutoGenerateColumns="RemoveOld" EnableSmartColumnsGeneration="True">
+                                        <dxg:GridControl.TotalSummary>
+                                            <dxg:GridSummaryItem SummaryType="Count" Alignment="Right" />
+                                        </dxg:GridControl.TotalSummary>
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView AllowEditing="False" ShowFixedTotalSummary="True" AllowPerPixelScrolling="True" ShowGroupPanel="False" AutoWidth="True" />
+                                        </dxg:GridControl.View>
+                                    </dxg:GridControl>
+                                </DataTemplate>
+                            </dx:DialogService.ViewTemplate>
+                        </dx:DialogService>
+                    </ItemsControl>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion Containers-->
+    <!--#region GridControl-->
+    <Style x:Key="EntityView.Detail.GridControl.Editable" BasedOn="{StaticResource CollectionView.GridControl.Editable}" TargetType="dxg:GridControl">
+        <Setter Property="ShowBorder" Value="True" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="MaxHeight" Value="2000" />
+    </Style>
+    <Style x:Key="EntityView.Detail.GridControl.ReadOnly" BasedOn="{StaticResource CollectionView.GridControl.ReadOnly}" TargetType="dxg:GridControl">
+        <Setter Property="ShowBorder" Value="True" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="MaxHeight" Value="2000" />
+    </Style>
+    <Style x:Key="EntityView.Detail.TableView" BasedOn="{StaticResource CollectionView.TableView}" TargetType="dxg:TableView">
+        <Setter Property="ShowGroupPanel" Value="False" />
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.GridControl" TargetType="dxg:GridControl">
+        <Setter Property="ItemsSource" Value="{Binding DetailEntities}" />
+        <Setter Property="SelectedItems" Value="{Binding SelectedEntities}" />
+        <Setter Property="AutoGenerateColumns" Value="RemoveOld" />
+        <Setter Property="EnableSmartColumnsGeneration" Value="True" />
+        <Setter Property="SelectionMode" Value="Row" />
+        <Setter Property="ShowBorder" Value="False" />
+        <Setter Property="dxmvvm:Interaction.BehaviorsTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ItemsControl>
+                        <dxmvvm:EventToCommand EventName="MouseDoubleClick" Command="{Binding EditDetailEntityCommand}" MarkRoutedEventsAsHandled="True" />
+                    </ItemsControl>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="EntityView.DetailManyToMany.TableView" TargetType="dxg:TableView">
+        <Setter Property="AllowEditing" Value="False" />
+        <Setter Property="ShowFixedTotalSummary" Value="True" />
+        <Setter Property="AllowPerPixelScrolling" Value="True" />
+        <Setter Property="ShowGroupPanel" Value="False" />
+        <Setter Property="AutoWidth" Value="True" />
+    </Style>
+    <!--#endregion GridControl-->
+</ResourceDictionary>
