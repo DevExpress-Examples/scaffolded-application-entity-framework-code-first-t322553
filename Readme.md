@@ -1,3 +1,10 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [DepartmentContext.cs](./CS/Scaffolding.CodeFirst/Data/DepartmentContext.cs) (VB: [DepartmentContext.vb](./VB/Scaffolding.CodeFirst/Data/DepartmentContext.vb))
+* [DepartmentContextViewModel.cs](./CS/Scaffolding.CodeFirst/ViewModels/DepartmentContextViewModel.cs) (VB: [DepartmentContextViewModel.vb](./VB/Scaffolding.CodeFirst/ViewModels/DepartmentContextViewModel.vb))
+* **[DepartmentContextView.xaml](./CS/Scaffolding.CodeFirst/Views/DepartmentContextView.xaml) (VB: [DepartmentContextView.xaml](./VB/Scaffolding.CodeFirst/Views/DepartmentContextView.xaml))**
+<!-- default file list end -->
 # Scaffolded Application (Entity Framework Code First)
 
 
